@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="brittanyreves (generated)" id="1508127006546-1">
+        <createTable tableName="config">
+            <column autoIncrement="true" name="config_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="config_key" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="config_value" type="VARCHAR(255)"/>
+            <column name="config_file_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="config_type_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-2">
+        <createTable tableName="config_file">
+            <column autoIncrement="true" name="config_file_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="config_file_path" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-3">
+        <createTable tableName="config_to_file">
+            <column name="config_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="config_file_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-4">
+        <createTable tableName="config_type">
+            <column autoIncrement="true" name="config_type_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="config_type_name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-5">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-6">
+        <addPrimaryKey columnNames="config_id, config_file_id" constraintName="PRIMARY" tableName="config_to_file"/>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-7">
+        <addUniqueConstraint columnNames="config_file_id" constraintName="config_file_id_UNIQUE" tableName="config_file"/>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-8">
+        <addUniqueConstraint columnNames="config_id" constraintName="config_id_UNIQUE" tableName="config"/>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-9">
+        <addUniqueConstraint columnNames="config_type_id" constraintName="config_type_id_UNIQUE" tableName="config_type"/>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-10">
+        <addUniqueConstraint columnNames="username, password" constraintName="username" tableName="users"/>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-11">
+        <createIndex indexName="FK-config.config_file_id-config_file.config_file_id-1_idx" tableName="config">
+            <column name="config_file_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-12">
+        <createIndex indexName="FK-config_file_id-config.config_file_id_idx" tableName="config_to_file">
+            <column name="config_file_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-13">
+        <createIndex indexName="FK-config_id-config.config_id_idx" tableName="config_to_file">
+            <column name="config_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-14">
+        <createIndex indexName="fk_config_2_idx" tableName="config">
+            <column name="config_type_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-15">
+        <addForeignKeyConstraint baseColumnNames="config_file_id" baseTableName="config" constraintName="FK-config.config_file_id-config_file.config_file_id-1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="config_file_id" referencedTableName="config_file"/>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-16">
+        <addForeignKeyConstraint baseColumnNames="config_type_id" baseTableName="config" constraintName="FK-config.config_type_id-config_type.config_type_id-1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="config_type_id" referencedTableName="config_type"/>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-17">
+        <addForeignKeyConstraint baseColumnNames="config_file_id" baseTableName="config_to_file" constraintName="FK-config_file_id-config_file.config_file_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="config_file_id" referencedTableName="config_file"/>
+    </changeSet>
+    <changeSet author="brittanyreves (generated)" id="1508127006546-18">
+        <addForeignKeyConstraint baseColumnNames="config_id" baseTableName="config_to_file" constraintName="FK-config_id-config.config_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="config_id" referencedTableName="config"/>
+    </changeSet>
+    <changeSet id="2" author="brittany.reves" dbms="mysql" context="DEV">
+        <insert tableName="users">
+            <column name="id" value="1"/>
+            <column name="username" value="breves"/>
+            <column name="password" value="p@ssw0rd"/>
+        </insert>
+        <rollback>
+            <delete tableName="users">
+                <where>id=1</where>
+            </delete>
+        </rollback>
+        <comment>Inserts user into users table</comment>
+    </changeSet>
+
+</databaseChangeLog>
